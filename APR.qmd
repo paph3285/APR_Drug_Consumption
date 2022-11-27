@@ -31,7 +31,7 @@ Summary of the article -->
 
 **Journal**: [SpringerLink](https://link.springer.com/chapter/10.1007/978-3-319-55723-6_18#Sec2)
 
-You can access this page here, [GitHub](https://github.com/paph3285/Drug_Consumption)
+You can access this page here: [GitHub](https://github.com/paph3285/Drug_Consumption)
 
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Fehrman, Elaine, et al. "The Five Factor Model of Personality and Evaluation of Drug Consumption Risk." *SpringerLink*, Springer International Publishing, 5 July 2017, https://link.springer.com/chapter/10.1007/978-3-319-55723-6_18#Sec2. |
