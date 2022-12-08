@@ -3,7 +3,7 @@ title: "Application Research Report "
 author: "Paige X. Phillips"
 date: "11/27/2022"
 format:
-  pdf:
+  html:
     self-contained: true
     toc: true
 editor: visual
