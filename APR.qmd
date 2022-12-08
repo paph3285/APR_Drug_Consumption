@@ -3,302 +3,322 @@ title: "Application Research Report "
 author: "Paige X. Phillips"
 date: "11/27/2022"
 format:
-  html:
-      self-contained: true
-      toc: true
+  pdf:
+    self-contained: true
+    toc: true
 editor: visual
 ---
 
-```{r Import Packages, include=FALSE}
+{r Import Packages, include=FALSE}
 library(tidyverse)
 library(dplyr)
 library(stringr)
+library(tinytex)
+library(latexpdf)
 
-```
-
-```{=html}
 <!-- 
 Summary of the article -->
-```
-# Where Is Your Data From?
 
-**Application Area**: Neuroscience
+Where Is Your Data From?
 
-**Article**: The Five Factor Model of Personality and Evaluation of Drug Consumption Risk
+Application Area: Neuroscience
 
-**Database**: [Drug Consumptions (UCI)](https://www.kaggle.com/datasets/obeykhadija/drug-consumptions-uci)
+Article: The Five Factor Model of Personality and Evaluation of Drug Consumption Risk
 
-**DOI**: <https://doi.org/10.1007/978-3-319-55723-6_18>
+Database: Drug Consumptions (UCI)
 
-**Journal**: [SpringerLink](https://link.springer.com/chapter/10.1007/978-3-319-55723-6_18#Sec2)
+DOI: https://doi.org/10.1007/978-3-319-55723-6_18
 
-You can access this page here: [GitHub](https://github.com/paph3285/APR_Drug_Consumption)
+Journal: SpringerLink
 
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Fehrman, Elaine, et al. "The Five Factor Model of Personality and Evaluation of Drug Consumption Risk." *SpringerLink*, Springer International Publishing, 5 July 2017, https://link.springer.com/chapter/10.1007/978-3-319-55723-6_18#Sec2. |
-|                                                                                                                                                                                                                                              |
-| Khadija. "Drug Consumptions (UCI)." *Kaggle*, 26 Sept. 2021, https://www.kaggle.com/datasets/obeykhadija/drug-consumptions-uci.                                                                                                              |
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+You can access this page here: GitHub
 
-: **Reference**
+Fehrman, Elaine, et al. "The Five Factor Model of Personality and Evaluation of Drug Consumption Risk." SpringerLink, Springer International Publishing, 5 July 2017, https://link.springer.com/chapter/10.1007/978-3-319-55723-6_18#Sec2.
 
-```{=html}
+Khadija. "Drug Consumptions (UCI)." Kaggle, 26 Sept. 2021, https://www.kaggle.com/datasets/obeykhadija/drug-consumptions-uci.
+
+Reference
+
 <!-- 
 Number of # provides header size. Range from (largest) 1 through 6 (smallest) 
 -->
-```
-# Why Should I Care?
+
+Why Should I Care?
 
 Change is inevitable and one of the hot topics in change is the discussion, advancement, and push to legalize different drugs. However, we need to remind ourselves before we get too carried away, drug consumption usage is very much still an on-going global problem. Such risk behavior cannot be isolated alone but constitute from a multitude of factors. These factors are defined as anything that increases the chances or probability of one's drug consumption(s). Primary this can be predicted and measured through an individual's attribute, characteristics, and/or life events
 
-## Summary
+Summary
 
-### Topic:
+Topic:
 
 Assessing one's risk of drug consumption use and misuse according to their personality trait(s).
 
-### Data Collection:
+Data Collection:
 
 The study initially received 2051 responses, but only included 1885 respondents. 12 attributes and 18 central nervous system (CNS) psychoactive drugs were included in the study. The 12 attributes can be categorized based on demographic and personality measurements. The 18 CNS psychoactive drugs includes both illicit and licit drugs. Additionally, there was a fake drug (Semeron) included to help identify any over-claimers in the study. Finally, respondents were asked to rate their drug use per drug across seven different categories. Based on their response of drug use, respondents were classified either as users or non-users.
 
-```{r read in data, echo=FALSE, }
+{r read in data, echo=FALSE}
 #| echo: false
 # TODO - read in file directly from kaggle
 
 df <- read.csv(url("https://raw.githubusercontent.com/paph3285/Drug_Consumption/main/Drug_Consumption.csv"))
 
-```
 
-```{r data, echo=FALSE, }
+{r data, echo=FALSE}
 
 knitr::kable(
   head(df[0:32])
   )
-```
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **Age**: 18-24, 25-34, 35-44, 45-54, 55-64                                                                                                                                         |
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **Country**: Australia, Canada, Other, USA, UK                                                                                                                                     |
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **Gender**: Female, Male                                                                                                                                                           |
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **Ethnicity**: Asian, Black, Mixed-White/Black, Other, White                                                                                                                       |
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **Level of Education**: Left school at 18 years old, Some college or university with no certificate or degree, Professional certificate/diploma, University degree, Masters degree |
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+Age: 18-24, 25-34, 35-44, 45-54, 55-64
 
-: ***Demographic***
+Country: Australia, Canada, Other, USA, UK
 
-+--------------------------------------------------------+
-| Five Factor Model (FFM):                               |
-+========================================================+
-| 1.  Agreeableness (A)                                  |
-+--------------------------------------------------------+
-| 2.  Conscientiousness (C)                              |
-+--------------------------------------------------------+
-| 3.  Extraversion (E)                                   |
-+--------------------------------------------------------+
-| 4.  Neuroticism (N)                                    |
-+--------------------------------------------------------+
-| 5.  Openness to Experience (O)                         |
-+--------------------------------------------------------+
-| Impulsivity (BIS-11) \[*Barratt Impulsiveness Scale\]* |
-+--------------------------------------------------------+
-| Impulsiveness Sensation Seeking Scale (ImpSS)          |
-+--------------------------------------------------------+
+Gender: Female, Male
 
-: ***Personality Measurements***
+Ethnicity: Asian, Black, Mixed-White/Black, Other, White
 
-+-----------------+---------------------------------+
-| Alcohol         | Ecstasy                         |
-+-----------------+---------------------------------+
-| Amphetamines    | Heroin                          |
-+-----------------+---------------------------------+
-| Amyl nitrite    | Ketamine                        |
-+-----------------+---------------------------------+
-| Benzodiazepines | Legal Highs                     |
-+-----------------+---------------------------------+
-| Cannabis        | LSD                             |
-+-----------------+---------------------------------+
-| Chocolate       | Methadone                       |
-+-----------------+---------------------------------+
-| Cocaine         | Magic Mushrooms                 |
-+-----------------+---------------------------------+
-| Caffeine        | Nicotine                        |
-+-----------------+---------------------------------+
-| Crack           | Volatile Substance Abuse (VSA). |
-+-----------------+---------------------------------+
+Level of Education: Left school at 18 years old, Some college or university with no certificate or degree, Professional certificate/diploma, University degree, Masters degree
 
-: ***CNS Psychoactive Drug Use***
+Demographic
 
-[![Category Group of Drug Users](images/Categories%20of%20drug%20users.webp)](https://link.springer.com/chapter/10.1007/978-3-319-55723-6_18/figures/1)
+Five Factor Model (FFM):
 
-:   ***Category Group of Drug Users***
+Agreeableness (A)
 
-### Data Cleaning:
+Conscientiousness (C)
+
+Extraversion (E)
+
+Neuroticism (N)
+
+Openness to Experience (O)
+
+Impulsivity (BIS-11)
+
+Impulsiveness Sensation Seeking Scale (ImpSS)
+
+Personality Measurements
+
+Alcohol
+
+Ecstasy
+
+Amphetamines
+
+Heroin
+
+Amyl nitrite
+
+Ketamine
+
+Benzodiazepines
+
+Legal Highs
+
+Cannabis
+
+LSD
+
+Chocolate
+
+Methadone
+
+Cocaine
+
+Magic Mushrooms
+
+Caffeine
+
+Nicotine
+
+Crack
+
+Volatile Substance Abuse (VSA).
+
+CNS Psychoactive Drug Use
+
+Category Group of Drug Users
+
+Data Cleaning:
 
 In order to measure and account for the accuracy of each drug measured across the groups, a number of different classification methods were implemented and tested. Only the most effective methods were selected to help identify between users and non-users for each drug.
 
-+------------------------------------------------+
-| Decision Tree (DT)                             |
-+------------------------------------------------+
-| Gaussian Mixture                               |
-+------------------------------------------------+
-| K-Nearest Neighbours (KNN)                     |
-+------------------------------------------------+
-| Linear Discriminant Analysis (LDA)             |
-+------------------------------------------------+
-| Logistic Regression                            |
-+------------------------------------------------+
-| Naïve Bayes                                    |
-+------------------------------------------------+
-| Probability Density Function Estimation (PDFE) |
-+------------------------------------------------+
-| Random Forest                                  |
-+------------------------------------------------+
+Decision Tree (DT)
 
-: ***Data Mining Classification Methods***
+Gaussian Mixture
 
-# What Does It Tell You?
+K-Nearest Neighbours (KNN)
 
-### Data Analysis:
+Linear Discriminant Analysis (LDA)
 
-+---------------------------------+--------------------------------------------------------------+
-| Ordinal Features Quantification | Nominal Feature Quantification                               |
-+=================================+==============================================================+
-| Polychoric Correlation (PolC)   | Nonlinear Categorical Principal Components Analysis (CatPCA) |
-+---------------------------------+--------------------------------------------------------------+
+Logistic Regression
 
-: ***Quantifying Categorical Variables***
+Naïve Bayes
 
-***Rule of Thumb:*** The greater the value of RIG, the stronger is the indicated correlation
+Probability Density Function Estimation (PDFE)
 
--   We can consider any correlation to be considered [**weak**]{.underline} **if \| *r* \| \< 0. 4**
+Random Forest
 
--   We can consider any correlation to be considered [**medium**]{.underline} **if 0. 45 \> \| *r* \| ≥ 0. 4**
+Data Mining Classification Methods
 
--   We can consider any correlation to be considered [**strong**]{.underline} **if 0. 5 \> \| *r* \| ≥ 0. 45**
+What Does It Tell You?
 
--   We can consider any correlation to be considered [**very strong**]{.underline} **if \| *r* \| ≥ 0. 5**
+Data Analysis:
 
-### Data Visualizations:
+Ordinal Features Quantification
 
-For our specific data we are using, please note that any correlations **above 0.4** are to be considered relatively *strong*; any correlations **between 0.2 and 0.4** are to be considered relatively *moderate*, and for those correlations **below 0.2** are to considered to be relatively *weak*.
+Nominal Feature Quantification
 
-[![Category Group of Drug Users](images/Meadium:Weak%20Drug%20Use.webp){alt="Category Group of Drug Users" width="663"}](https://link.springer.com/chapter/10.1007/978-3-319-55723-6_18/figures/3)
+Polychoric Correlation (PolC)
 
-:   ***Medium to Weak Drug Use Correlation***
+Nonlinear Categorical Principal Components Analysis (CatPCA)
 
-[![Category Group of Drug Users](images/Strong%20drug%20usage%20correlations.webp){alt="Category Group of Drug Users" width="356" height="235"}](https://link.springer.com/chapter/10.1007/978-3-319-55723-6_18/figures/2)
+Quantifying Categorical Variables
 
-:   ***Strong Drug Use Correlation***
+Rule of Thumb: The greater the value of RIG, the stronger is the indicated correlation
 
-[![Category Group of Drug Users](images/drug%20users%20classifiers-01.png){alt="Category Group of Drug Users"}](https://link.springer.com/chapter/10.1007/978-3-319-55723-6_18/figures/3)
+We can consider any correlation to be considered weak if | r | < 0. 4
 
-:   ***Best Classification Drug User***
+We can consider any correlation to be considered medium if 0. 45 > | r | ≥ 0. 4
 
-# What Do You Conclude?
+We can consider any correlation to be considered strong if 0. 5 > | r | ≥ 0. 45
+
+We can consider any correlation to be considered very strong if | r | ≥ 0. 5
+
+Data Visualizations:
+
+For our specific data we are using, please note that any correlations above 0.4 are to be considered relatively strong; any correlations between 0.2 and 0.4 are to be considered relatively moderate, and for those correlations below 0.2 are to considered to be relatively weak.
+
+Medium to Weak Drug Use Correlation
+
+Strong Drug Use Correlation
+
+Best Classification Drug User
+
+What Do You Conclude?
 
 Based on the findings, there are strong correlations between consumption of certain group of drugs. For instance, amphetamines, cannabis, cocaine, ecstasy, legal highs, LSD, and magic mushrooms can be identified as a group of drugs with strong correlation consumption. The same can be said between the strongly correlated consumption of crack and heroin. In regards to the 12 attributes, attributes will differentiate for different drugs. For example, while age can be used as the best classifier for 14 drugs; gender can be used as the best classifiers for 10 drugs, while sensation seekers (SS) can be used as the best classifiers for 8 drugs. Lastly, the classification accuracy of the drugs are considered to be relatively high. The sensitivity and specificity are greater than 70% across nearly all drug classifications, except for alcohol, cocaine, and magic mushrooms.
 
-# How Could You Be Wrong?
+How Could You Be Wrong?
 
--   Classification method testing - This is highly important to critically think and laterally think about how different methods of testing may get different sensitivity and specificity results.
+Classification method testing - This is highly important to critically think and laterally think about how different methods of testing may get different sensitivity and specificity results.
 
--   Sample size - This may not entirely reflect the general public and is bias to what is actually present in the real-world.
+Sample size - This may not entirely reflect the general public and is bias to what is actually present in the real-world.
 
--   Cultural - This was a global validation study and thus does not necessarily reflect inner cultural differences and identification of specific drug consumption.
+Cultural - This was a global validation study and thus does not necessarily reflect inner cultural differences and identification of specific drug consumption.
 
--   Bias - The word "drug(s)" carries negative connotation behind it. More often than not my mind jumps to 1) illegal, 2) substance use disorder, 3) ruins lives. Again, a lot of these are associated with more illicit drugs like cocaine, meth, heroin, etc., not so much with licit drugs such as alcohol, caffeine, cannabis, chocolate, and nicotine. However, that is not to say that others may not perceive those drugs in the same way as me. How I perceive these drugs is a bias of itself. Again, mainly due to the cultural climate I live in today.
+Bias - The word "drug(s)" carries negative connotation behind it. More often than not my mind jumps to 1) illegal, 2) substance use disorder, 3) ruins lives. Again, a lot of these are associated with more illicit drugs like cocaine, meth, heroin, etc., not so much with licit drugs such as alcohol, caffeine, cannabis, chocolate, and nicotine. However, that is not to say that others may not perceive those drugs in the same way as me. How I perceive these drugs is a bias of itself. Again, mainly due to the cultural climate I live in today.
 
-```{=html}
 <!-- 
 CU Applicable Courses
 -->
-```
-# How Would One Pursue Studies In This Area?
 
-## University of Colorado - Boulder Courses
+How Would One Pursue Studies In This Area?
 
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Class - Purpose                                                                                                                                                                                             | Requirements (Instructors)                                                                                                                                                                                                                                                   |
-+=============================================================================================================================================================================================================+==============================================================================================================================================================================================================================================================================+
-| [**Neuropharmacology**]{.underline} **(NRSC 4132)** - Designed to provide a fundamental understanding of the neurobiological and neurochemical mechanisms of drug action within the central nervous system. | Requires a prerequisite course of NRSC 2100/ NRSC 2150 (minimum grade C-)                                                                                                                                                                                                    |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Principles of pharmacology                                                                                                                                                                              | (**Ryan Bachtell & Heidi Day**)                                                                                                                                                                                                                                              |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Brain neurotransmitter systems                                                                                                                                                                          |                                                                                                                                                                                                                                                                              |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Biochemical basis of psychiatric disorders                                                                                                                                                              |                                                                                                                                                                                                                                                                              |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Pharmacological treatment                                                                                                                                                                               |                                                                                                                                                                                                                                                                              |
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| [**Introduction to Neuroscience 1**]{.underline} **(NRSC 5100)** - Designed to provide a fundamental understanding of the principles of neuroscience.                                                       | Restricted to Psychology and Neuroscience (PSYC & NRSC) graduate students and students in the interdepartmental neuroscience program. Email jefferey.greeson\@colorado.edu for assistance in enrolling.                                                                      |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Neuroanatomy                                                                                                                                                                                            | (**David Root**)                                                                                                                                                                                                                                                             |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Physiology                                                                                                                                                                                              |                                                                                                                                                                                                                                                                              |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Neuropysiology                                                                                                                                                                                          |                                                                                                                                                                                                                                                                              |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Neurochemical                                                                                                                                                                                           |                                                                                                                                                                                                                                                                              |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Developmental characteristics of the CNS                                                                                                                                                                |                                                                                                                                                                                                                                                                              |
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **Data Mining (CSCI 5502**) - Designed to provide a fundamental understanding of data mining concepts and techniques for discovering interesting patterns hidden in large scale data sets.                  | Restricted to graduate students only.                                                                                                                                                                                                                                        |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Focuses on issues relating to effectiveness and efficiency                                                                                                                                              | (**Qin Lv & Di Wu**)                                                                                                                                                                                                                                                         |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Data preprocessing, warehouse, association, classification, clustering                                                                                                                                  |                                                                                                                                                                                                                                                                              |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Mining of specific data types                                                                                                                                                                           |                                                                                                                                                                                                                                                                              |
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **Methods in Statistical Learning (STAT 5600)** - Designed to provide a fundamental understanding of different statistical concepts, models, and algorithms of machine learning.                            | Requires prerequisite: APPM 3310 or CSCI 2820 or MATH 2130 or 2135 or 3130 or 3135) OR (APPM 3570 or 4570 or CHEN 3010 or CSCI 3022 or CVEN 3227 or ECEN 3810 or ECON 3818 or MATH 3510 or 4510 or MCEN 3047 or STAT 3100 or 4000 or 4520) (min grade B) Grad students only. |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Supervised learning for regression                                                                                                                                                                      | (**Ami Gates & David Quigley**)                                                                                                                                                                                                                                              |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Classification and resampling methods                                                                                                                                                                   |                                                                                                                                                                                                                                                                              |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Discriminant analysis                                                                                                                                                                                   |                                                                                                                                                                                                                                                                              |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Classification and regression trees                                                                                                                                                                     |                                                                                                                                                                                                                                                                              |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Random forests and associated tuning                                                                                                                                                                    |                                                                                                                                                                                                                                                                              |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Diagnostics and performance evaluation                                                                                                                                                                  |                                                                                                                                                                                                                                                                              |
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **Information Visualization (INFO 5602)** - Designed to provide a fundamental understanding of visual representations of data.                                                                              | Requires prerequisite course of STAT 5010 (minimum grade C-). Restricted to MS-DS students.                                                                                                                                                                                  |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Using and building exploratory tools and data narratives                                                                                                                                                | (**Osita Onyejekwe**)                                                                                                                                                                                                                                                        |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Interactive systems                                                                                                                                                                                     |                                                                                                                                                                                                                                                                              |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   User-centered and graphic design                                                                                                                                                                        |                                                                                                                                                                                                                                                                              |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Perception, data storytelling and analysis                                                                                                                                                              |                                                                                                                                                                                                                                                                              |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Insight generation                                                                                                                                                                                      |                                                                                                                                                                                                                                                                              |
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **Machine Learning (CSCI 5622)** - Designed to provide a fundamental, practical, and theoretical understanding different widely used algorithms.                                                            | Restricted to graduate students only.                                                                                                                                                                                                                                        |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Algorithms: neural networks, decision trees, support vector machines, Q-learning)                                                                                                                       | (**Abel Iyasele**)                                                                                                                                                                                                                                                           |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Building computer systems that learn from experience                                                                                                                                                    |                                                                                                                                                                                                                                                                              |
-|                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                              |
-| -   Connecting data mining and statistical modeling                                                                                                                                                         |                                                                                                                                                                                                                                                                              |
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+University of Colorado - Boulder Courses
 
-: Below outlines courses taught at CU Boulder that would be applicable to help me pursue my studies in this area.
+Class - Purpose
 
-```{=html}
+Requirements (Instructors)
+
+Neuropharmacology (NRSC 4132) - Designed to provide a fundamental understanding of the neurobiological and neurochemical mechanisms of drug action within the central nervous system.
+
+Principles of pharmacology
+
+Brain neurotransmitter systems
+
+Biochemical basis of psychiatric disorders
+
+Pharmacological treatment
+
+Requires a prerequisite course of NRSC 2100/ NRSC 2150 (minimum grade C-)
+
+(Ryan Bachtell & Heidi Day)
+
+Introduction to Neuroscience 1 (NRSC 5100) - Designed to provide a fundamental understanding of the principles of neuroscience.
+
+Neuroanatomy
+
+Physiology
+
+Neuropysiology
+
+Neurochemical
+
+Developmental characteristics of the CNS
+
+Restricted to Psychology and Neuroscience (PSYC & NRSC) graduate students and students in the interdepartmental neuroscience program. Email jefferey.greeson@colorado.edu for assistance in enrolling.
+
+(David Root)
+
+Data Mining (CSCI 5502) - Designed to provide a fundamental understanding of data mining concepts and techniques for discovering interesting patterns hidden in large scale data sets.
+
+Focuses on issues relating to effectiveness and efficiency
+
+Data preprocessing, warehouse, association, classification, clustering
+
+Mining of specific data types
+
+Restricted to graduate students only.
+
+(Qin Lv & Di Wu)
+
+Methods in Statistical Learning (STAT 5600) - Designed to provide a fundamental understanding of different statistical concepts, models, and algorithms of machine learning.
+
+Supervised learning for regression
+
+Classification and resampling methods
+
+Discriminant analysis
+
+Classification and regression trees
+
+Random forests and associated tuning
+
+Diagnostics and performance evaluation
+
+Requires prerequisite: APPM 3310 or CSCI 2820 or MATH 2130 or 2135 or 3130 or 3135) OR (APPM 3570 or 4570 or CHEN 3010 or CSCI 3022 or CVEN 3227 or ECEN 3810 or ECON 3818 or MATH 3510 or 4510 or MCEN 3047 or STAT 3100 or 4000 or 4520) (min grade B) Grad students only.
+
+(Ami Gates & David Quigley)
+
+Information Visualization (INFO 5602) - Designed to provide a fundamental understanding of visual representations of data.
+
+Using and building exploratory tools and data narratives
+
+Interactive systems
+
+User-centered and graphic design
+
+Perception, data storytelling and analysis
+
+Insight generation
+
+Requires prerequisite course of STAT 5010 (minimum grade C-). Restricted to MS-DS students.
+
+(Osita Onyejekwe)
+
+Machine Learning (CSCI 5622) - Designed to provide a fundamental, practical, and theoretical understanding different widely used algorithms.
+
+Algorithms: neural networks, decision trees, support vector machines, Q-learning)
+
+Building computer systems that learn from experience
+
+Connecting data mining and statistical modeling
+
+Restricted to graduate students only.
+
+(Abel Iyasele)
+
+Below outlines courses taught at CU Boulder that would be applicable to help me pursue my studies in this area.
+
 <!-- 
 sessionInfo
 -->
-```
-# sessionInfo()
 
-```{r}
+sessionInfo()
+
+{r}
 #| echo: false
 sessionInfo()
-```
+
