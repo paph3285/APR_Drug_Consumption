@@ -4,6 +4,7 @@ author: "Paige X. Phillips"
 date: "11/27/2022"
 format:
   html:
+      self-contained: true
       toc: true
 editor: visual
 ---
